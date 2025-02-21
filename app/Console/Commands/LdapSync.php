@@ -356,7 +356,7 @@ class LdapSync extends Command
                 // ....then *most* things that are truthy will activate the user. Anything falsey will deactivate them.
                 // (Specifically, we don't handle a value of '0.0' correctly)
                 $raw_value = @$results[$i][$ldap_map["active_flag"]][0];
-                $filter_var = filter_var($raw_value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+                $filter_var = !filter_var($raw_value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
                 $boolean_cast = (bool) $raw_value;
 
                 $user->activated = $filter_var ?? $boolean_cast; // if filter_var() was true or false, use that. If it's null, use the $boolean_cast
